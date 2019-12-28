@@ -1,8 +1,11 @@
+spring:
+  application:
+    name: changgou_eureka
 server:
   port: 6868
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:6868
-    fetch-registry: false #是否从eureka中获取信息
-    register-with-eureka: false #是否将自己注册
+      defaultZone: http://127.0.0.1:${server.port}/eureka
+    fetch-registry: false
+    register-with-eureka: false
