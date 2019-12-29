@@ -1,5 +1,6 @@
 package com.changgou.goods.server;
 
+import com.changgou.entity.PageResult;
 import com.changgou.pojo.Brand;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface BrandServer {
     void deleteById(Integer id);
 
     List<Brand> findByQuery(String keyWord);
+
+    PageResult getPage(String keyWord, Integer currentPage, Integer pageSize);
 }

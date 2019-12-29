@@ -1,9 +1,13 @@
 package com.changgou.goods.server.impl;
 
+import com.changgou.entity.PageResult;
 import com.changgou.goods.dao.BrandDao;
 import com.changgou.goods.server.BrandServer;
 import com.changgou.pojo.Brand;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -53,5 +57,21 @@ public class BrandServerImpl implements BrandServer {
             brandList=brandDao.selectByExample(exception);
         }
         return brandList;
+    }
+
+    @Override
+    public PageResult getPage(String keyWord, Integer currentPage, Integer pageSize) {
+        PageResult pageResult = new PageResult();
+        if (currentPage!=null&&pageSize!=null) {
+            PageHelper.startPage(currentPage-1,pageSize);
+            Example exception = new Example(Brand.class);
+            Example.Criteria criteria = exception.createCriteria();
+            criteria.andLike("name","%"+keyWord+"%");
+            criteria.orLike("letter","%"+keyWord+"%");
+           Page<Brand> brandList =( Page<Brand>) brandDao.selectByExample(exception);
+         pageResult.setTotal(brandList.getTotal());
+         pageResult.setRows(brandList.getResult());
+        }
+        return pageResult;
     }
 }

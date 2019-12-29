@@ -1,10 +1,12 @@
 package com.changgou.goods.controller;
 
+import com.changgou.entity.PageResult;
 import com.changgou.entity.Result;
 import com.changgou.entity.StatusCode;
 import com.changgou.goods.server.BrandServer;
 import com.changgou.pojo.Brand;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/brand")
+@CrossOrigin  //开启跨域请求默认所有请求
 public class BrandController {
     @Autowired
     private BrandServer brandServer;
@@ -41,6 +44,7 @@ public class BrandController {
         }
         return new Result(true, StatusCode.OK,"获取数据成功",brand);
     }
+
     //添加品牌
     @PostMapping
     public Result add(@RequestBody Brand brand){
@@ -53,6 +57,7 @@ public class BrandController {
         }
         return new Result(true, StatusCode.OK,"储存数据成功");
     }
+
     //修改品牌
     @PutMapping
     public Result edit(@RequestBody Brand brand){
@@ -65,6 +70,7 @@ public class BrandController {
         }
         return new Result(true, StatusCode.OK,"修改数据成功");
     }
+
     //删除品牌
     @DeleteMapping("/{id}")
     public Result deleteById(@PathVariable("id") Integer id){
@@ -77,6 +83,7 @@ public class BrandController {
         }
         return new Result(true, StatusCode.OK,"删除品牌成功");
     }
+
     //根据条件查询
     @GetMapping("/findByQuery/{keyWord}")
     public Result findByQuery(@PathVariable String keyWord){
@@ -88,5 +95,12 @@ public class BrandController {
             return new Result(false,StatusCode.ERROR,"删除品牌失败");
         }
         return new Result(true, StatusCode.OK,"删除品牌成功",brandList);
+    }
+
+    //条件分页查询
+    @GetMapping("/getPage/{keyWord}/{currentPage}/{pageSize}")
+    public PageResult getPage(@PathVariable String keyWord , @PathVariable Integer currentPage, @PathVariable Integer pageSize){
+        PageResult brandList = brandServer.getPage(keyWord,currentPage,pageSize);
+        return brandList;
     }
 }

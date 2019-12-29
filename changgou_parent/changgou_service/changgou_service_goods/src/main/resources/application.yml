@@ -3,7 +3,7 @@ server:
 spring:
   application:
     name: goods
-  datasource:
+  datasource: #配置数据库
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://192.168.200.128:3306/changgou_goods?useUnicode=true&characterEncoding=utf-8&serviceTimezone=UTC
     username: root
@@ -11,7 +11,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://127.0.0.1:6868/eureka
+      defaultZone: http://127.0.0.1:6868/eureka #注册服务
   instance:
     prefer-ip-address: true
 feign:
@@ -26,3 +26,6 @@ hystrix:
           enable: true
         isolation:
           strategy: SEMAPHORE
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  #开启sql语句输出在控制台
